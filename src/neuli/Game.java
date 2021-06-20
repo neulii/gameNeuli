@@ -7,14 +7,11 @@ import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas {
 
-
     final boolean PRINT_OUT_RENDER_COUNTER = false;
     final boolean PRINT_OUT_UPDATE_COUNTER = false;
 
-
     JFrame gameWindow;
     Dimension gameWindowSize;
-
 
     BufferStrategy bs;
     Graphics graphics;
@@ -23,7 +20,6 @@ public class Game extends Canvas {
 
     int renderCounter = 0;
     int updateCounter = 0;
-
 
     public Game() {
 
@@ -60,18 +56,10 @@ public class Game extends Canvas {
                     startTime = System.nanoTime();
                 }
 
-
                 //rendering as fast as can
                 renderScreen();
 
             }
-
-
-
-
-
-            //System.out.println("loop Duration: " + gameLoopDuration + " ns = " + gameLoopDuration/1000000.0 + " ms");
-
         }
     }
 
