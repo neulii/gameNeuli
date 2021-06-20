@@ -4,12 +4,11 @@ package neuli;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.nio.Buffer;
 
 public class Game extends Canvas {
 
 
-    final boolean PRINT_OUT_FRAME_COUNTER = false;
+    final boolean PRINT_OUT_RENDER_COUNTER = false;
     final boolean PRINT_OUT_UPDATE_COUNTER = false;
 
 
@@ -32,26 +31,46 @@ public class Game extends Canvas {
 
         gameIsRunning = true;
 
-        long gameLoopDuration;
-        long actualTime = 0;
-        long timeBeginningGameLoop;
-        long timeEndOfGameLoop;
-
-
-
+        //game loop
         while(gameIsRunning){
-            timeBeginningGameLoop = System.nanoTime();
 
             //processInput();
 
-            updateGameLogic();
-            renderScreen();
+            final int FPS = 60;
 
-            timeEndOfGameLoop = System.nanoTime();
+            long startTime = System.nanoTime();
+            long deltaTime = 0;
+            //long frameCounterTime;
+            double timePerFrame = 1000000000.0 / FPS;
 
-            gameLoopDuration = timeEndOfGameLoop-timeBeginningGameLoop;
+            int frames = 0;
 
-            System.out.println("loop Duration: " + gameLoopDuration + " ns = " + gameLoopDuration/1000000.0 + " ms");
+            //frameCounterTime = System.currentTimeMillis();
+
+            while (gameIsRunning) {
+                deltaTime = System.nanoTime() - startTime;
+
+                if (deltaTime >= timePerFrame) {
+
+                    //update Methode
+                    updateGameLogic();
+
+                    frames++;
+                    deltaTime = 0;
+                    startTime = System.nanoTime();
+                }
+
+
+                //rendering as fast as can
+                renderScreen();
+
+            }
+
+
+
+
+
+            //System.out.println("loop Duration: " + gameLoopDuration + " ns = " + gameLoopDuration/1000000.0 + " ms");
 
         }
     }
@@ -60,7 +79,7 @@ public class Game extends Canvas {
         renderCounter++;
 
         //Debugging output to console
-        if(PRINT_OUT_FRAME_COUNTER)
+        if(PRINT_OUT_RENDER_COUNTER)
             System.out.println("rendering Screen: " + renderCounter);
 
         bs = this.getBufferStrategy();
@@ -98,10 +117,12 @@ public class Game extends Canvas {
         if(PRINT_OUT_UPDATE_COUNTER)
             System.out.println("update Logic: " + updateCounter);
 
-
+        /*
         for(long  i = 0; i<=1000000000; i++){
 
         }
+
+         */
     }
 
 
